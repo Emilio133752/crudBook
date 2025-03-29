@@ -12,12 +12,10 @@ namespace crudBook.Controllers
     public class BooksController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly ExternalApiService _externalApiService;
 
-        public BooksController(AppDbContext context, ExternalApiService externalApiService)
+        public BooksController(AppDbContext context)
         {
             _context = context;
-            _externalApiService = externalApiService;
         }
         //Metodo Get
         [HttpGet]
@@ -26,9 +24,9 @@ namespace crudBook.Controllers
             try 
             {
                 var books = await _context.Books.ToListAsync();
-                var externalData = await _externalApiService.GetExternalData();
+  
 
-                return Ok(new { books, externalData });
+                return Ok(new { books });
             }
             catch(Exception ex)
             {
@@ -42,9 +40,9 @@ namespace crudBook.Controllers
             try 
             {
                 var book = await _context.Books.FindAsync(id);
-                var externalData = await _externalApiService.GetExternalData();
+
                 if (book == null) return NotFound();
-                return Ok(new { book, externalData });
+                return Ok(new { book });
             }
              catch(Exception ex)
              {
