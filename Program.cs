@@ -27,7 +27,7 @@ if (app.Environment.IsDevelopment())
 //Port do swagger 7104/swagger/index.html
 
 app.Urls.Add("https://localhost:7000");
-app.MapGet("/", () => "Bem vindo a tela da API;");
+app.MapGet("/", () => "Bem vindo a tela da API");
 app.MapControllers();
 
 app.UseHttpsRedirection();
