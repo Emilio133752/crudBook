@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddHttpClient<ExternalApiService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -22,6 +23,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Port do swagger 7104/swagger/index.html
+
+app.Urls.Add("https://localhost:7000");
+app.MapGet("/", () => "Bem vindo a tela da API;");
+app.MapControllers();
 
 app.UseHttpsRedirection();
 
