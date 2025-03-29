@@ -68,6 +68,8 @@ namespace crudBook.Controllers
             }  
         }
 
+        //Metodo put
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBook(int id, [FromBody] Book book)
         {
@@ -81,6 +83,25 @@ namespace crudBook.Controllers
                 return NoContent();
             }
             catch (Exception ex) 
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook(int id)
+        { 
+            try
+            {
+                var book = await _context.Books.FindAsync(id);
+                if (book == null)
+                    return NotFound("Livro não encontrado");
+
+                _context.Books.Remove(book);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch(Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
