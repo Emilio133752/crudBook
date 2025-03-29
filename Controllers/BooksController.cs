@@ -32,7 +32,7 @@ namespace crudBook.Controllers
             }
         }  
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> Getbook(int id) 
+        public async Task<ActionResult<Book>> GetBook(int id) 
         {
 
             try 
@@ -55,13 +55,34 @@ namespace crudBook.Controllers
         {
             try
             {
+                if (book == null)
+                    return BadRequest("Dados Invalidos");
+
                 _context.Books.Add(book);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(Getbook), new { id = book.Id }, book);
+                return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
             }
             catch (Exception ex)
+            { 
+                return StatusCode(500, ex.Message); 
+            }  
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBook(int id, [FromBody] Book book)
+        {
+            try
             {
-                StatusCode(500, ex.Message);
+                if (id != book.Id)
+                    return BadRequest("ID do livro não corresponde");
+                _context.Entry(book).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, ex.Message);
             }
         }
     }
