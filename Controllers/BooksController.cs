@@ -53,9 +53,16 @@ namespace crudBook.Controllers
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(Book book)
         {
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Getbook), new { id = book.Id }, book);
+            try
+            {
+                _context.Books.Add(book);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(Getbook), new { id = book.Id }, book);
+            }
+            catch (Exception ex)
+            {
+                StatusCode(500, ex.Message);
+            }
         }
     }
 }
