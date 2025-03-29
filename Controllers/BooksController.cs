@@ -42,8 +42,9 @@ namespace crudBook.Controllers
             try 
             {
                 var book = await _context.Books.FindAsync(id);
+                var externalData = await _externalApiService.GetExternalData();
                 if (book == null) return NotFound();
-                return book;
+                return Ok(new { book, externalData });
             }
              catch(Exception ex)
              {
