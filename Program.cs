@@ -31,6 +31,11 @@ app.Urls.Add("https://localhost:7000");
 app.MapGet("/", () => "Bem vindo a tela da API");
 app.MapControllers();
 
+app.UseCors(policy =>
+    policy.WithOrigins("http://localhost:5173")
+          .AllowAnyMethod()
+          .AllowAnyHeader());
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
